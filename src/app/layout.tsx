@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import NextAuthSessionProvider from '@/providers/sessionProvider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -20,14 +21,16 @@ export default function RootLayout({
       <body
         className={`${inter.variable} min-h-screen w-screen font-sans antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <NextAuthSessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   )
