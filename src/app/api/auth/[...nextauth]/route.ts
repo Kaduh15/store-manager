@@ -26,8 +26,12 @@ export const nextAuthOptions: NextAuthOptions = {
           password: credentials.password,
         })
 
+        if (!user) {
+          return null
+        }
+
         return {
-          id: user.email,
+          id: user.id.toString(),
           email: user.email,
         }
       },
@@ -35,6 +39,19 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: '/login',
+  },
+  callbacks: {
+    async jwt({ token, user, ...rest }) {
+      console.log('🚀 ~ jwt ~ user:', user)
+      if (user) {
+        token.sub = user.id
+      }
+      return token
+    },
+    async session({ session, token }) {
+      session.user.id = Number(token.sub)
+      return session
+    },
   },
 }
 
