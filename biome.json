@@ -40,6 +40,7 @@
     }
   },
   "files": {
-    "ignore": ["node_modules", ".next"]
+    "ignore": ["node_modules", ".next"],
+    "include": ["src"]
   }
 }
