@@ -1,6 +1,9 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Store Manager",
+    "short_name": "SM",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
     "icons": [
         {
             "src": "/icon-192x192.png",
