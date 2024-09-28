@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check --fix --unsafe",
-    "db:seed": "tsx ./src/db/seed.ts"
+    "db:seed": "tsx --env-file .env ./src/db/seed.ts",
+    "db:migrate": "drizzle-kit migrate",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.1",
