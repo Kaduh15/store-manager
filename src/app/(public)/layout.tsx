@@ -1,6 +1,6 @@
+import { authOptions } from '@/helpers/auth-options'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { authOptions } from '@/helpers/auth-options'
 
 export default async function PrivateLayout({
   children,
