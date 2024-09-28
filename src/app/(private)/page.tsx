@@ -1,9 +1,9 @@
 import { ButtonLogout } from '@/components/button-logout'
 import { getServerSession } from 'next-auth'
-import { nextAuthOptions } from '../api/auth/[...nextauth]/route'
+import { authOptions } from '@/helpers/auth-options'
 
 export default async function Home() {
-  const session = await getServerSession(nextAuthOptions)
+  const session = await getServerSession(authOptions)
 
   return (
     <>
