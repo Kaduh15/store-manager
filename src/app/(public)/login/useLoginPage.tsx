@@ -40,8 +40,9 @@ export function useLoginPage() {
       password,
       redirect: false,
     })
-    if (!user || user.error) {
-      toast.error(`${user?.error}`)
+
+    if (!user || user.error || user.status === 401) {
+      toast.error('Email ou senha inválida')
       return
     }
 

@@ -9,7 +9,7 @@ export type LoginParams = {
 }
 
 export async function login(params: LoginParams) {
-  const [{ password, ...user }] = await db
+  const [result] = await db
     .select({
       id: User.id,
       email: User.email,
@@ -18,9 +18,11 @@ export async function login(params: LoginParams) {
     .from(User)
     .where(eq(User.email, params.email))
 
-  if (!user) {
+  if (!result) {
     throw new Error('Email ou senha inválida')
   }
+
+  const { password, ...user } = result
 
   const passwordMatch = await bcrypt.compare(params.password, password)
 
