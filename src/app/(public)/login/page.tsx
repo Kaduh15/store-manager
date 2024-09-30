@@ -21,7 +21,7 @@ export default function Login() {
       redirect: false,
     })
 
-    router.push('/')
+    router.replace('/')
   }
 
   return (
