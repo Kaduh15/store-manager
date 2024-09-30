@@ -1,5 +1,11 @@
 {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
-  "cSpell.words": ["nextauth", "NEXTAUTH", "postgres"]
+  "cSpell.words": [
+    "hookform",
+    "nextauth",
+    "NEXTAUTH",
+    "postgres",
+    "sonner"
+  ]
 }
