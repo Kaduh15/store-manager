@@ -19,13 +19,13 @@ export async function login(params: LoginParams) {
     .where(eq(User.email, params.email))
 
   if (!user) {
-    throw new Error('Email ou senha inválida?')
+    throw new Error('Email ou senha inválida')
   }
 
   const passwordMatch = await bcrypt.compare(params.password, password)
 
   if (!passwordMatch) {
-    throw new Error('Email ou senha inválida?')
+    throw new Error('Email ou senha inválida')
   }
 
   return user

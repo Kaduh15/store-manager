@@ -1,7 +1,8 @@
+import Providers from '@/providers'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import { Toaster } from 'sonner'
 import './globals.css'
-import Providers from '@/providers'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -37,6 +38,7 @@ export default function RootLayout({
         className={`${inter.variable} min-h-screen w-screen font-sans antialiased`}
       >
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   )
