@@ -1,3 +1,4 @@
+import Header from '@/components/Header'
 import { authOptions } from '@/helpers/auth-options'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
@@ -10,5 +11,10 @@ export default async function PrivateLayout({
     redirect('/login')
   }
 
-  return children
+  return (
+    <div className="h-full">
+      <Header />
+      {children}
+    </div>
+  )
 }
