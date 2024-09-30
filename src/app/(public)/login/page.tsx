@@ -2,6 +2,8 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -25,15 +27,15 @@ export default function Login() {
   return (
     <main className="flex h-screen flex-col items-center justify-center gap-4">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <label htmlFor="email">Email</label>
-        <input
+        <Label htmlFor="email">Email</Label>
+        <Input
           type="email"
           id="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="password">Password</label>
-        <input
+        <Label htmlFor="password">Password</Label>
+        <Input
           type="password"
           id="password"
           value={password}

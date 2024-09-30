@@ -11,5 +11,5 @@ export default async function PrivateLayout({
     redirect('/')
   }
 
-  return <>{children}</>
+  return children
 }
