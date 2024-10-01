@@ -21,33 +21,17 @@ const formatMoney = new Intl.NumberFormat('pt-BR', {
 const Image = dynamic(() => import('next/image'))
 
 export default function Products() {
-  const { isOpen, setIsOpen, handleSubmitForm, products, register } =
-    useProductsPage()
+  const {
+    isOpen,
+    setIsOpen,
+    handleSubmitForm,
+    products,
+    register,
+    isCreatingProduct,
+  } = useProductsPage()
 
   return (
-    <main className="flex h-full flex-1 flex-col justify-between gap-4 p-2">
-      <div className="flex w-2/1 flex-1 flex-wrap items-center justify-center gap-4 overflow-x-scroll">
-        {products?.map(product => (
-          <div
-            key={product.id}
-            className="flex max-w-32 flex-col gap-2 rounded-md border p-2"
-          >
-            <h1 className="truncate text-xl">{product.description}</h1>
-            <h2 className="text-sm">{formatMoney(product.costPrice)}</h2>
-            <h2 className="text-sm">{formatMoney(product.salePrice)}</h2>
-            {product.imageUrl && (
-              <Image
-                src={product.imageUrl}
-                alt={product.description}
-                width={100}
-                height={100}
-              />
-            )}
-            <p>Quantidade: {product.stockQuantity}</p>
-          </div>
-        ))}
-      </div>
-
+    <main className="flex h-full flex-1 flex-col justify-between gap-4 p-2 pb-7">
       <Dialog onOpenChange={open => setIsOpen(open)} open={isOpen}>
         <DialogTrigger asChild>
           <Button>Adicionar produto</Button>
@@ -87,11 +71,35 @@ export default function Products() {
                 placeholder="Exemplo: 10"
               />
 
-              <Button type="submit">Adicionar</Button>
+              <Button type="submit" disabled={isCreatingProduct}>
+                {isCreatingProduct ? 'Criando...' : 'Adicionar'}
+              </Button>
             </form>
           </DialogHeader>
         </DialogContent>
       </Dialog>
+
+      <div className="flex w-2/1 flex-1 flex-wrap items-start justify-start gap-4 overflow-y-scroll">
+        {products?.map(product => (
+          <div
+            key={product.id}
+            className="flex max-w-32 flex-col gap-2 rounded-md border p-2"
+          >
+            <h1 className="truncate text-xl">{product.description}</h1>
+            <h2 className="text-sm">{formatMoney(product.costPrice)}</h2>
+            <h2 className="text-sm">{formatMoney(product.salePrice)}</h2>
+            {product.imageUrl && (
+              <Image
+                src={product.imageUrl}
+                alt={product.description}
+                width={100}
+                height={100}
+              />
+            )}
+            <p>Quantidade: {product.stockQuantity}</p>
+          </div>
+        ))}
+      </div>
     </main>
   )
 }

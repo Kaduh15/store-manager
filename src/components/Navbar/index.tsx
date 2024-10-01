@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export function Navbar() {
   return (
-    <nav className="absolute bottom-0 flex h-fit w-full items-center justify-around bg-zinc-200 p-2 dark:bg-zinc-900">
+    <nav className="fixed bottom-0 flex h-fit w-full items-center justify-around bg-zinc-200 p-2 dark:bg-zinc-900">
       <Link href="/products" className="flex items-center gap-2">
         <Tags />
         Produtos

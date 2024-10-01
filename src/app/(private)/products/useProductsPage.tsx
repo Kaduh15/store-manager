@@ -24,22 +24,9 @@ export function useProductsPage() {
     costPrice: z.coerce.number().min(1, 'O preço é obrigatório'),
     salePrice: z.coerce.number().min(1, 'O preço é obrigatório'),
     description: z.string().min(1, 'A descrição é obrigatória'),
-    image: z.instanceof(FileList).refine(files => {
-      if (!files.length) {
-        return false
-      }
-
-      const file = files[0]
-      const fileSize = file.size
-
-      if (fileSize > MAX_FILE_SIZE) {
-        return false
-      }
-
-      const fileType = file.type
-
-      return ACCEPTED_IMAGE_TYPES.includes(fileType)
-    }),
+    image: z.any().refine(files => {
+      return files && typeof files.length === 'number' && files.length > 0
+    }, 'Arquivo é obrigatório'),
     stockQuantity: z.coerce.number().min(1, 'A quantidade é obrigatória'),
   })
 
@@ -56,19 +43,18 @@ export function useProductsPage() {
     resolver: zodResolver(addProductSchema),
   })
 
-  const { execute: handleCreateProduct } = useServerAction(
-    createProductAction,
-    {
-      onSuccess: () => {
+  const { execute: handleCreateProduct, isPending: isCreatingProduct } =
+    useServerAction(createProductAction, {
+      onSuccess: async () => {
         toast.success('Produto criado com sucesso!')
         reset()
         setIsOpen(false)
+        await getProducts()
       },
       onError: error => {
-        toast.error(`Error: ${error}`)
+        toast.error(`Error: ${JSON.stringify(error, null, 2)}`)
       },
-    }
-  )
+    })
 
   const { data: products, execute: getProducts } = useServerAction(
     getProductsAction,
@@ -116,5 +102,6 @@ export function useProductsPage() {
     register,
     errors,
     handleCreateProduct,
+    isCreatingProduct,
   }
 }
