@@ -14,7 +14,7 @@ export default async function PrivateLayout({
   }
 
   return (
-    <div className="min-h-screen w-screen">
+    <div className="flex min-h-screen w-screen flex-col pb-10">
       <Header />
       {children}
       <Navbar />

@@ -17,8 +17,8 @@ export const Product = pgTable('products', {
   costPrice: integer('cost_price').notNull(),
   salePrice: integer('sale_price').notNull(),
   description: text('description').notNull(),
-  image_url: text('image'),
-  stock_quantity: integer('stock_quantity').notNull(),
+  imageUrl: text('image'),
+  stockQuantity: integer('stock_quantity').notNull(),
   categoryId: serial('category_id').references(() => Category.id),
 })
 
