@@ -3,7 +3,7 @@
 import { ArrowLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 
-export default function Header() {
+export function Header() {
   const router = useRouter()
   const pathName = usePathname()
 
