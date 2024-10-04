@@ -1,22 +1,22 @@
-'use client'
-
-import { ArrowLeft } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
+import { SearchIcon, ShoppingCartIcon } from 'lucide-react'
+import { AddProductDialog } from '../AddProductDialog'
+import { Switch } from '../ui/switch'
 
 export function Header() {
-  const router = useRouter()
-  const pathName = usePathname()
-
   return (
-    <header className="flex h-fit items-center justify-between bg-zinc-200 p-2 dark:bg-zinc-900">
-      <ArrowLeft className="h-6 w-6" onClick={router.back} />
-      {pathName === '/' ? (
-        <h1 className="font-bold text-2xl">Produtos</h1>
-      ) : (
-        <h1 className="font-bold text-2xl capitalize">
-          {pathName.replace('/', '')}
-        </h1>
-      )}
+    <header className="flex items-center justify-between border-muted border-b p-4">
+      <section className="flex items-center justify-between gap-4">
+        <h1 className="font-bold text-lg">Produtos</h1>
+        <div className="flex items-center space-x-4">
+          <SearchIcon className="size-6" />
+        </div>
+      </section>
+      <section className="flex items-center justify-center gap-4">
+        <ShoppingCartIcon className="size-6" />
+        <Switch />
+
+        <AddProductDialog />
+      </section>
     </header>
   )
 }
