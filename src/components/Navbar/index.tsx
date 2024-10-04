@@ -48,7 +48,7 @@ export function Navbar() {
         </Link>
         <Link
           data-active={isReport}
-          href="/"
+          href="/report"
           className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
         >
           <BarChartIcon />
@@ -56,7 +56,7 @@ export function Navbar() {
         </Link>
         <Link
           data-active={isMenu}
-          href="/"
+          href="/menu"
           className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
         >
           <MenuIcon />
