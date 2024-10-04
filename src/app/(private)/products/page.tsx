@@ -1,17 +1,6 @@
-'use client'
-
-import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { getProductsAction } from '@/actions/get-products'
+import { ImageOffIcon, ShoppingCartIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import { ACCEPTED_IMAGE_TYPES, useProductsPage } from './useProductsPage'
 
 const formatMoney = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -20,83 +9,45 @@ const formatMoney = new Intl.NumberFormat('pt-BR', {
 
 const Image = dynamic(() => import('next/image'))
 
-export default function Products() {
-  const {
-    isOpen,
-    setIsOpen,
-    handleSubmitForm,
-    products,
-    register,
-    isCreatingProduct,
-  } = useProductsPage()
+export default async function Products() {
+  const [products] = await getProductsAction()
 
   return (
     <main className="flex h-full flex-1 flex-col justify-between gap-4 p-2 pb-7">
-      <Dialog onOpenChange={open => setIsOpen(open)} open={isOpen}>
-        <DialogTrigger asChild>
-          <Button>Adicionar produto</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Novo Produto</DialogTitle>
-            <form onSubmit={handleSubmitForm}>
-              <Label htmlFor="description">Descrição</Label>
-              <Input
-                {...register('description')}
-                type="text"
-                placeholder="Exemplo: Camisa de banho"
-              />
-              <Label htmlFor="costPrice">Preço de custo</Label>
-              <Input
-                {...register('costPrice')}
-                type="number"
-                placeholder="Exemplo: 100"
-              />
-              <Label htmlFor="salePrice">Preço de venda</Label>
-              <Input
-                {...register('salePrice')}
-                type="number"
-                placeholder="Exemplo: 50"
-              />
-              <Label htmlFor="image">Imagem</Label>
-              <Input
-                {...register('image')}
-                type="file"
-                accept={ACCEPTED_IMAGE_TYPES.join(',')}
-              />
-              <Label htmlFor="stockQuantity">Quantidade em estoque</Label>
-              <Input
-                {...register('stockQuantity')}
-                type="number"
-                placeholder="Exemplo: 10"
-              />
-
-              <Button type="submit" disabled={isCreatingProduct}>
-                {isCreatingProduct ? 'Criando...' : 'Adicionar'}
-              </Button>
-            </form>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
-      <div className="flex w-2/1 flex-1 flex-wrap items-start justify-start gap-4 overflow-y-scroll">
+      <div className="flex w-2/1 flex-1 flex-col flex-wrap items-start justify-start gap-4 overflow-y-scroll">
         {products?.map(product => (
           <div
             key={product.id}
-            className="flex max-w-32 flex-col gap-2 rounded-md border p-2"
+            className="mb-4 flex w-full items-center justify-between rounded-md bg-card p-4"
           >
-            <h1 className="truncate text-xl">{product.description}</h1>
-            <h2 className="text-sm">{formatMoney(product.costPrice)}</h2>
-            <h2 className="text-sm">{formatMoney(product.salePrice)}</h2>
-            {product.imageUrl && (
-              <Image
-                src={product.imageUrl}
-                alt={product.description}
-                width={100}
-                height={100}
-              />
-            )}
-            <p>Quantidade: {product.stockQuantity}</p>
+            <div className="flex items-center space-x-4">
+              {product.imageUrl && (
+                <Image
+                  src={product.imageUrl}
+                  alt={product.description}
+                  width={40}
+                  height={40}
+                  className="size-10 rounded-md"
+                />
+              )}
+
+              {!product.imageUrl && (
+                <ImageOffIcon className="size-10 text-muted-foreground" />
+              )}
+              <div className="flex w-full flex-col">
+                <h2 className="truncate font-semibold text-lg">
+                  {product.description}
+                </h2>
+                <p className="text-muted-foreground text-sm">{product.id}</p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center gap-2 space-x-2">
+              <p className="text-primary">{formatMoney(product.salePrice)}</p>
+              <div className="flex items-center space-x-2">
+                <ShoppingCartIcon className="h-6 w-6 text-primary" />
+                <span className="text-primary">{product.stockQuantity}</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>
