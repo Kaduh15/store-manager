@@ -1,7 +1,8 @@
 import { ImageOffIcon, ShoppingCartIcon } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { UpdateProductDialog } from '../UpdateProductDialog'
 
-type Product = {
+export type Product = {
   id: number
   costPrice: number
   salePrice: number
@@ -26,7 +27,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div
       key={product.id}
-      className="mb-4 flex w-full items-center justify-between rounded-md bg-card p-4"
+      className="mb-4 flex w-full items-center justify-between gap-4 rounded-md bg-card p-4"
     >
       <div className="flex items-center space-x-4">
         {product.imageUrl && (
@@ -49,13 +50,14 @@ export function ProductCard({ product }: ProductCardProps) {
           <p className="text-muted-foreground text-sm">{product.id}</p>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-2 space-x-2">
+      <div className="flex flex-1 flex-col items-end gap-2 space-x-2">
         <p className="text-primary">{formatMoney(product.salePrice)}</p>
         <div className="flex items-center space-x-2">
           <ShoppingCartIcon className="h-6 w-6 text-primary" />
           <span className="text-primary">{product.stockQuantity}</span>
         </div>
       </div>
+      <UpdateProductDialog id={product.id} product={product} />
     </div>
   )
 }
