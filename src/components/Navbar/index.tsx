@@ -25,7 +25,7 @@ export function Navbar() {
         <Link
           data-active={isProducts}
           href="/products"
-          className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
+          className="flex flex-col items-center data-[active=false]:text-zinc-500 data-[active=true]:text-zinc-100"
         >
           <TagIcon />
           <span className=" text-xs">Produtos</span>
@@ -33,7 +33,7 @@ export function Navbar() {
         <Link
           data-active={isSales}
           href="/sales"
-          className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
+          className="flex flex-col items-center data-[active=false]:text-zinc-500 data-[active=true]:text-zinc-100"
         >
           <ShoppingCartIcon />
           <span className=" text-xs">Vendas</span>
@@ -41,7 +41,7 @@ export function Navbar() {
         <Link
           data-active={isClients}
           href="/clients"
-          className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
+          className="flex flex-col items-center data-[active=false]:text-zinc-500 data-[active=true]:text-zinc-100"
         >
           <UserIcon />
           <span className=" text-xs">Clientes</span>
@@ -49,7 +49,7 @@ export function Navbar() {
         <Link
           data-active={isReport}
           href="/report"
-          className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
+          className="flex flex-col items-center data-[active=false]:text-zinc-500 data-[active=true]:text-zinc-100"
         >
           <BarChartIcon />
           <span className=" text-xs">Relatórios</span>
@@ -57,7 +57,7 @@ export function Navbar() {
         <Link
           data-active={isMenu}
           href="/menu"
-          className="flex flex-col items-center data-[active=false]:text-secondary data-[active=true]:text-primary"
+          className="flex flex-col items-center data-[active=false]:text-zinc-500 data-[active=true]:text-zinc-100"
         >
           <MenuIcon />
           <span className=" text-xs">Menu</span>
