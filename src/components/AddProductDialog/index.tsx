@@ -1,6 +1,7 @@
 'use client'
 
 import { createProductAction } from '@/actions/create-product'
+import { getCategoriesAction } from '@/actions/get-categories'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,10 +15,11 @@ import { Label } from '@/components/ui/label'
 import { deleteImage, uploadImage } from '@/lib/firebase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PlusIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { useServerAction } from 'zsa-react'
 
 export const MAX_FILE_SIZE = 5000000
 export const ACCEPTED_IMAGE_TYPES = [
@@ -28,6 +30,11 @@ export const ACCEPTED_IMAGE_TYPES = [
 ]
 
 export function AddProductDialog() {
+  const { data: categories, execute: getCategories } = useServerAction(
+    getCategoriesAction,
+    { initialData: [] }
+  )
+
   const addProductSchema = z
     .object({
       costPrice: z.coerce.number().min(1, 'O preço é obrigatório'),
@@ -37,6 +44,7 @@ export function AddProductDialog() {
         return files && typeof files.length === 'number' && files.length > 0
       }, 'Arquivo é obrigatório'),
       stockQuantity: z.coerce.number().min(1, 'A quantidade é obrigatória'),
+      categoryId: z.coerce.number().min(1, 'A categoria é obrigatória'),
     })
     .refine(
       ({ costPrice, salePrice }) => {
@@ -78,6 +86,7 @@ export function AddProductDialog() {
         description: data.description,
         imageUrl: imageURL,
         stockQuantity: data.stockQuantity,
+        categoryId: data.categoryId,
       })
       setIsCreatingProduct(false)
       if (error) {
@@ -93,6 +102,10 @@ export function AddProductDialog() {
   })
 
   const salePriceError = errors.salePrice?.message
+
+  useEffect(() => {
+    getCategories()
+  }, [getCategories])
 
   return (
     <Dialog onOpenChange={open => setIsOpen(open)} open={isOpen}>
@@ -146,6 +159,15 @@ export function AddProductDialog() {
             type="number"
             placeholder="Exemplo: 10"
           />
+
+          <Label htmlFor="categoryId">Categoria</Label>
+          <select disabled={isCreatingProduct} {...register('categoryId')}>
+            {categories?.map(category => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
 
           <Button type="submit" disabled={isCreatingProduct}>
             {isCreatingProduct ? 'Adicionando...' : 'Adicionar'}
