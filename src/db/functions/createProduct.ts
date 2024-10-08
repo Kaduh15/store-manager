@@ -7,19 +7,26 @@ type CreateProductParams = {
   description: string
   imageUrl: string
   stockQuantity: number
+  categoryId: number
 }
 
-export async function createProduct(params: CreateProductParams) {
-  const { costPrice, salePrice, description, imageUrl, stockQuantity } = params
+export async function createProduct({
+  costPrice,
+  salePrice,
+  description,
+  imageUrl,
+  stockQuantity,
+  categoryId,
+}: CreateProductParams) {
   const [result] = await db
     .insert(Product)
     .values({
       costPrice,
       salePrice,
       description,
-      imageUrl: imageUrl,
-      stockQuantity: stockQuantity,
-      categoryId: 1,
+      imageUrl,
+      stockQuantity,
+      categoryId,
     })
     .returning()
 

@@ -8,6 +8,13 @@
       "when": 1727462788272,
       "tag": "0000_flowery_blue_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1728427270792,
+      "tag": "0001_nice_lady_mastermind",
+      "breakpoints": true
     }
   ]
 }

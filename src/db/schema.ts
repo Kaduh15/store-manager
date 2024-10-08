@@ -9,7 +9,7 @@ export const User = pgTable('users', {
 
 export const Category = pgTable('categories', {
   id: serial('id').primaryKey(),
-  name: text('name').notNull(),
+  name: text('name').notNull().unique(),
 })
 
 export const Product = pgTable('products', {
