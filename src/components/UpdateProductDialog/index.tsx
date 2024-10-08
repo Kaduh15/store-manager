@@ -34,20 +34,35 @@ type UpdateProductDialogProps = {
 }
 
 export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
-  const updateProductSchema = z.object({
-    costPrice: z.coerce.number().optional(),
-    salePrice: z.coerce.number().optional(),
-    description: z.string().optional(),
-    image: z.any().optional(),
-    stockQuantity: z.coerce.number().optional(),
-  })
+  const updateProductSchema = z
+    .object({
+      costPrice: z.coerce.number().optional(),
+      salePrice: z.coerce.number().optional(),
+      description: z.string().optional(),
+      image: z.any().optional(),
+      stockQuantity: z.coerce.number().optional(),
+    })
+    .refine(
+      ({ costPrice, salePrice }) => {
+        return costPrice && salePrice && costPrice <= salePrice
+      },
+      {
+        message: 'Preço de venda deve ser maior que o preço de custo',
+        path: ['salePrice'],
+      }
+    )
 
   type updateProductForm = z.infer<typeof updateProductSchema>
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isCreatingProduct, setIsCreatingProduct] = useState<boolean>(false)
 
-  const { register, handleSubmit, reset } = useForm<updateProductForm>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<updateProductForm>({
     resolver: zodResolver(updateProductSchema),
     defaultValues: {
       costPrice: product.costPrice,
@@ -56,6 +71,8 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
       stockQuantity: product.stockQuantity,
     },
   })
+
+  const salePriceError = errors.salePrice?.message
 
   const handleSubmitForm = handleSubmit(async data => {
     const { image } = data
@@ -81,12 +98,12 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
       stockQuantity: data.stockQuantity,
     })
 
-    setIsCreatingProduct(false)
     if (error) {
       toast.error(`Error: ${JSON.stringify(error, null, 2)}`)
       imageURL && (await deleteImage(imageURL))
       return
     }
+    setIsCreatingProduct(false)
     setIsOpen(false)
     reset()
     toast.success('Produto atualizado com sucesso!')
@@ -124,7 +141,12 @@ export function UpdateProductDialog({ product }: UpdateProductDialogProps) {
             {...register('salePrice')}
             type="number"
             placeholder="Exemplo: 50"
+            data-error={!!salePriceError}
+            className="data-[error=true]:border-red-500"
           />
+          {salePriceError && (
+            <span className="text-red-500 text-sm">{salePriceError}</span>
+          )}
           <Label htmlFor="image">Imagem</Label>
           <Input
             disabled={isCreatingProduct}
